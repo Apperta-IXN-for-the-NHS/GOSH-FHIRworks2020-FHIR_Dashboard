@@ -4,6 +4,13 @@
 1. Graphing data from FHIR records and preparing data for transfer to XML and CSV.
 2. Then create a dashboard that presents a human-readable representation of the data of a FHIR server.
 
+## Stacks / Skills
+1. `pip install FHIR-Parser`. Review [FHIR-Parser Docs](https://fhir-parser.readthedocs.io/en/latest/index.html#).  
+Special thanks to [greenfrogs](https://github.com/greenfrogs/).
+2. Model-View-Controller (MVC)  
+3. Front-end (HTML, CSS, Python3)
+4. Back-end and DB (Flask, SQLAlchemy)  
+
 ## Background
 Great Ormond Street Hospital, a specialist children’s centre, has established a digital research unit,
 including NHS clinicians, UCL academics and industry partners. The aim is to improve child health
