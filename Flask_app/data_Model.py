@@ -9,19 +9,17 @@ class Patients:
     None of the parameter or either one of them can be set as not-None
     """
 
-    def __init__(self, *pages, patient_uuid=None):
+    def __init__(self, page=None, patient_uuid=None):
         fhir = FHIR()
         self.uuid_presented = False
         self.patients = fhir.get_all_patients()
         if patient_uuid is not None:
             self.uuid_presented = True
             self.specific_patient = fhir.get_patient(patient_uuid)
-        if len(pages) is not 0:
+        if page is not None:
             try:
                 assert patient_uuid is None
-                self.patients = []
-                for page in pages:
-                    self.patients.extend(fhir.get_patient_page(page))
+                self.patients = fhir.get_patient_page(page)
             except AssertionError:
                 print("Error: Can't load pages param with single patient uuid at the same time")
                 sys.exit(1)
@@ -113,85 +111,119 @@ class Observations:
             self.patients_uuid_list = [self.patients_uuid_list]
         self.get_patient_observations_by_uuid = lambda x: fhir.get_patient_observations(x)
 
+    """
+    getter methods returns a dictionary
+    result = {uuid1 : [...],
+              uuid2 : [...]...  }
+    Therefore, len(result) should be the same as the number of distinct patients
+    """
+
     def get_observation_uuid(self):
+        result = {}
         for uuid in self.patients_uuid_list:
             observations = self.get_patient_observations_by_uuid(uuid)
-            result = []
             for ob in observations:
-                result.append(ob.uuid)
-            return result
+                if uuid not in result:
+                    result[uuid] = [ob.uuid]
+                else:
+                    result[uuid].append(ob.uuid)
+        return result
 
     def get_type(self):
+        result = {}
         for uuid in self.patients_uuid_list:
             observations = self.get_patient_observations_by_uuid(uuid)
-            result = []
             for ob in observations:
-                result.append(ob.type)
-            return result
+                if uuid not in result:
+                    result[uuid] = [ob.type]
+                else:
+                    result[uuid].append(ob.type)
+        return result
 
     def get_patient_uuid(self):
+        result = {}
         for uuid in self.patients_uuid_list:
             observations = self.get_patient_observations_by_uuid(uuid)
-            result = []
             for ob in observations:
-                result.append(ob.patient_uuid)
-            return result
+                if uuid not in result:
+                    result[uuid] = [ob.patient_uuid]
+                else:
+                    result[uuid].append(ob.patient_uuid)
+        return result
 
     def get_encounter_uuid(self):
+        result = {}
         for uuid in self.patients_uuid_list:
             observations = self.get_patient_observations_by_uuid(uuid)
-            result = []
             for ob in observations:
-                result.append(ob.encounter_uuid)
-            return result
+                if uuid not in result:
+                    result[uuid] = [ob.encounter_uuid]
+                else:
+                    result[uuid].append(ob.encounter_uuid)
+        return result
 
     def get_datetime(self):
+        result = {}
         for uuid in self.patients_uuid_list:
             observations = self.get_patient_observations_by_uuid(uuid)
-            result = []
             for ob in observations:
-                result.append(ob.issued_datetime)
-            return result
+                if uuid not in result:
+                    result[uuid] = [ob.issued_datetime]
+                else:
+                    result[uuid].append(ob.issued_datetime)
+        return result
 
     def get_component_system(self):
+        result = {}
         for uuid in self.patients_uuid_list:
             observations = self.get_patient_observations_by_uuid(uuid)
-            result = []
             for ob in observations:
-                result.append(ob.components[0].system)
-            return result
+                if uuid not in result:
+                    result[uuid] = [ob.components[0].system]
+                else:
+                    result[uuid].append(ob.components[0].system)
+        return result
 
     def get_component_code(self):
+        result = {}
         for uuid in self.patients_uuid_list:
             observations = self.get_patient_observations_by_uuid(uuid)
-            result = []
             for ob in observations:
-                result.append(ob.components[0].code)
-            return result
+                if uuid not in result:
+                    result[uuid] = [ob.components[0].code]
+                else:
+                    result[uuid].append(ob.components[0].code)
+        return result
 
     def get_component_display(self):
+        result = {}
         for uuid in self.patients_uuid_list:
             observations = self.get_patient_observations_by_uuid(uuid)
-            result = []
             for ob in observations:
-                result.append(ob.components[0].display)
-            return result
+                if uuid not in result:
+                    result[uuid] = [ob.components[0].display]
+                else:
+                    result[uuid].append(ob.components[0].display)
+        return result
 
     def get_component_quantity(self):
+        result = {}
         for uuid in self.patients_uuid_list:
             observations = self.get_patient_observations_by_uuid(uuid)
-            result = []
             for ob in observations:
-                result.append(ob.components[0].quantity())
-            return result
+                if uuid not in result:
+                    result[uuid] = [ob.components[0].quantity()]
+                else:
+                    result[uuid].append(ob.components[0].quantity())
+        return result
 
 
 # Debugging purpose main
 if __name__ == "__main__":
     patient_uuid = 'b905139e-1601-403c-9d85-f8e3997cdd19'
     patient = Patients(patient_uuid=patient_uuid)
-    patients = Patients(1,2)
-    # print(patient.get_uuid())
+    patients = Patients(2)
+    print(len(patients.get_uuid()))
     # print(patient.get_name())
     # print(patient.get_telecom())
     # print(patient.get_gender())
@@ -200,12 +232,12 @@ if __name__ == "__main__":
     # print(patient.get_marital())
     # print(patient.get_language())
     observations = Observations(patients)
-    print(len(observations.get_observation_uuid()))
-    print(len(observations.get_type()))
-    print(len(observations.get_patient_uuid()))
-    print(len(observations.get_encounter_uuid()))
-    print(len(observations.get_datetime()))
-    print(len(observations.get_component_system()))
-    print(len(observations.get_component_code()))
-    print(len(observations.get_component_display()))
-    print(len(observations.get_component_quantity()))
+    # print(len(observations.get_observation_uuid()))
+    # print(len(observations.get_type()))
+    # print(len(observations.get_patient_uuid()))
+    # print(len(observations.get_encounter_uuid()))
+    # print(len(observations.get_datetime()))
+    # print(len(observations.get_component_system()))
+    # print(len(observations.get_component_code()))
+    # print(len(observations.get_component_display()))
+    # print(len(observations.get_component_quantity()))
