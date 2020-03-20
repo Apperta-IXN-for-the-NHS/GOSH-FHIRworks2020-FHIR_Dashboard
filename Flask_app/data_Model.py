@@ -3,6 +3,7 @@ from fhir_parser.patient import Patient, Name, Telecom, Communications, Extensio
 from fhir_parser.observation import Observation, ObservationComponent
 import sys
 
+
 class Patients:
     """
     None of the parameter or either one of them can be set as not-None
@@ -45,7 +46,8 @@ class Patients:
 
     def get_telecom(self):
         if self.uuid_presented:
-            return self.specific_patient.telecoms[0].use + " " + self.specific_patient.telecoms[0].system + " " + self.specific_patient.telecoms[0].number
+            return self.specific_patient.telecoms[0].use + " " + self.specific_patient.telecoms[0].system + " " + \
+                   self.specific_patient.telecoms[0].number
 
         result = []
         for patient in self.patients:
@@ -91,6 +93,7 @@ class Patients:
     """
     @:returns type list -> can have multiple elements
     """
+
     def get_language(self):
         if self.uuid_presented:
             return self.specific_patient.communications.languages
@@ -100,45 +103,94 @@ class Patients:
             result.extend(patient.communications.languages)
         return result
 
-# TODO: Observations
-class Observations:
-    def __init__(self, *pages, patient_object, patient_uuid):
-        fhir = FHIR()
-        self.patient = patient_object
-        self.observations = fhir.get_patient_observations(patient_uuid)
-        if pages is not None:
-            observations = fhir.get_patient_observations_page(patient_uuid, pages)
 
-    def get_uuid(self):
-        pass
+class Observations:
+    def __init__(self, patients_object: Patients):
+        fhir = FHIR()
+        self.patients = patients_object
+        self.patients_uuid_list = self.patients.get_uuid()  # List
+        if type(self.patients_uuid_list) is not list:  # type is str when only patient is given
+            self.patients_uuid_list = [self.patients_uuid_list]
+        self.get_patient_observations_by_uuid = lambda x: fhir.get_patient_observations(x)
+
+    def get_observation_uuid(self):
+        for uuid in self.patients_uuid_list:
+            observations = self.get_patient_observations_by_uuid(uuid)
+            result = []
+            for ob in observations:
+                result.append(ob.uuid)
+            return result
 
     def get_type(self):
-        pass
+        for uuid in self.patients_uuid_list:
+            observations = self.get_patient_observations_by_uuid(uuid)
+            result = []
+            for ob in observations:
+                result.append(ob.type)
+            return result
 
     def get_patient_uuid(self):
-        pass
+        for uuid in self.patients_uuid_list:
+            observations = self.get_patient_observations_by_uuid(uuid)
+            result = []
+            for ob in observations:
+                result.append(ob.patient_uuid)
+            return result
 
     def get_encounter_uuid(self):
-        pass
+        for uuid in self.patients_uuid_list:
+            observations = self.get_patient_observations_by_uuid(uuid)
+            result = []
+            for ob in observations:
+                result.append(ob.encounter_uuid)
+            return result
 
     def get_datetime(self):
-        pass
+        for uuid in self.patients_uuid_list:
+            observations = self.get_patient_observations_by_uuid(uuid)
+            result = []
+            for ob in observations:
+                result.append(ob.issued_datetime)
+            return result
 
-    """
-    component.system
-    component.code
-    component.display
-    component.quantity()
-    """
+    def get_component_system(self):
+        for uuid in self.patients_uuid_list:
+            observations = self.get_patient_observations_by_uuid(uuid)
+            result = []
+            for ob in observations:
+                result.append(ob.components[0].system)
+            return result
 
-    def get_component(self):
-        pass
+    def get_component_code(self):
+        for uuid in self.patients_uuid_list:
+            observations = self.get_patient_observations_by_uuid(uuid)
+            result = []
+            for ob in observations:
+                result.append(ob.components[0].code)
+            return result
+
+    def get_component_display(self):
+        for uuid in self.patients_uuid_list:
+            observations = self.get_patient_observations_by_uuid(uuid)
+            result = []
+            for ob in observations:
+                result.append(ob.components[0].display)
+            return result
+
+    def get_component_quantity(self):
+        for uuid in self.patients_uuid_list:
+            observations = self.get_patient_observations_by_uuid(uuid)
+            result = []
+            for ob in observations:
+                result.append(ob.components[0].quantity())
+            return result
 
 
 # Debugging purpose main
 if __name__ == "__main__":
-    patient_uuid = '8f789d0b-3145-4cf2-8504-13159edaa747'
-    patient = Patients(1)
+    patient_uuid = 'b905139e-1601-403c-9d85-f8e3997cdd19'
+    patient = Patients(patient_uuid=patient_uuid)
+    patients = Patients(1,2)
     # print(patient.get_uuid())
     # print(patient.get_name())
     # print(patient.get_telecom())
@@ -146,4 +198,14 @@ if __name__ == "__main__":
     # print(patient.get_birthDate())
     # print(patient.get_address())
     # print(patient.get_marital())
-    print(patient.get_language())
+    # print(patient.get_language())
+    observations = Observations(patients)
+    print(len(observations.get_observation_uuid()))
+    print(len(observations.get_type()))
+    print(len(observations.get_patient_uuid()))
+    print(len(observations.get_encounter_uuid()))
+    print(len(observations.get_datetime()))
+    print(len(observations.get_component_system()))
+    print(len(observations.get_component_code()))
+    print(len(observations.get_component_display()))
+    print(len(observations.get_component_quantity()))
