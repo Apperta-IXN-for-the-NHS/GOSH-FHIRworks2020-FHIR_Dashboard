@@ -2,6 +2,7 @@ from fhir_parser import FHIR, Patient, Observation
 from fhir_parser.patient import Patient, Name, Telecom, Communications, Extension, Identifier
 from fhir_parser.observation import Observation, ObservationComponent
 import sys
+import numpy as np
 
 
 class Patients:
@@ -21,8 +22,7 @@ class Patients:
                 assert patient_uuid is None
                 self.patients = fhir.get_patient_page(page)
             except AssertionError:
-                print("Error: Can't load pages param with single patient uuid at the same time")
-                sys.exit(1)
+                sys.exit("Error: patients page and patient uuid cannot be initialised at the same time")
 
     def get_uuid(self):
         if self.uuid_presented:
@@ -118,103 +118,103 @@ class Observations:
     Therefore, len(result) should be the same as the number of distinct patients
     """
 
-    def get_observation_uuid(self):
+    def get_observation_uuid(self) -> dict:
         result = {}
         for uuid in self.patients_uuid_list:
             observations = self.get_patient_observations_by_uuid(uuid)
             for ob in observations:
                 if uuid not in result:
-                    result[uuid] = [ob.uuid]
+                    result[uuid] = np.array(ob.uuid)
                 else:
-                    result[uuid].append(ob.uuid)
+                    result[uuid] = np.append(result[uuid], ob.uuid)
         return result
 
-    def get_type(self):
+    def get_type(self) -> dict:
         result = {}
         for uuid in self.patients_uuid_list:
             observations = self.get_patient_observations_by_uuid(uuid)
             for ob in observations:
                 if uuid not in result:
-                    result[uuid] = [ob.type]
+                    result[uuid] = np.array(ob.type)
                 else:
-                    result[uuid].append(ob.type)
+                    result[uuid] = np.append(result[uuid], ob.type)
         return result
 
-    def get_patient_uuid(self):
+    def get_patient_uuid(self) -> dict:
         result = {}
         for uuid in self.patients_uuid_list:
             observations = self.get_patient_observations_by_uuid(uuid)
             for ob in observations:
                 if uuid not in result:
-                    result[uuid] = [ob.patient_uuid]
+                    result[uuid] = np.array(ob.patient_uuid)
                 else:
-                    result[uuid].append(ob.patient_uuid)
+                    result[uuid] = np.append(result[uuid], ob.patient_uuid)
         return result
 
-    def get_encounter_uuid(self):
+    def get_encounter_uuid(self) -> dict:
         result = {}
         for uuid in self.patients_uuid_list:
             observations = self.get_patient_observations_by_uuid(uuid)
             for ob in observations:
                 if uuid not in result:
-                    result[uuid] = [ob.encounter_uuid]
+                    result[uuid] = np.array(ob.encounter_uuid)
                 else:
-                    result[uuid].append(ob.encounter_uuid)
+                    result[uuid] = np.append(result[uuid], ob.encounter_uuid)
         return result
 
-    def get_datetime(self):
+    def get_datetime(self) -> dict:
         result = {}
         for uuid in self.patients_uuid_list:
             observations = self.get_patient_observations_by_uuid(uuid)
             for ob in observations:
                 if uuid not in result:
-                    result[uuid] = [ob.issued_datetime]
+                    result[uuid] = np.array(ob.issued_datetime)
                 else:
-                    result[uuid].append(ob.issued_datetime)
+                    result[uuid] = np.append(result[uuid], ob.issued_datetime)
         return result
 
-    def get_component_system(self):
+    def get_component_system(self) -> dict:
         result = {}
         for uuid in self.patients_uuid_list:
             observations = self.get_patient_observations_by_uuid(uuid)
             for ob in observations:
                 if uuid not in result:
-                    result[uuid] = [ob.components[0].system]
+                    result[uuid] = np.array(ob.components[0].system)
                 else:
-                    result[uuid].append(ob.components[0].system)
+                    result[uuid] = np.append(result[uuid], ob.components[0].system)
         return result
 
-    def get_component_code(self):
+    def get_component_code(self) -> dict:
         result = {}
         for uuid in self.patients_uuid_list:
             observations = self.get_patient_observations_by_uuid(uuid)
             for ob in observations:
                 if uuid not in result:
-                    result[uuid] = [ob.components[0].code]
+                    result[uuid] = np.array(ob.components[0].code)
                 else:
-                    result[uuid].append(ob.components[0].code)
+                    result[uuid] = np.append(result[uuid], ob.components[0].code)
         return result
 
-    def get_component_display(self):
+    def get_component_display(self) -> dict:
         result = {}
         for uuid in self.patients_uuid_list:
             observations = self.get_patient_observations_by_uuid(uuid)
             for ob in observations:
                 if uuid not in result:
-                    result[uuid] = [ob.components[0].display]
+                    result[uuid] = np.array(ob.components[0].display)
                 else:
-                    result[uuid].append(ob.components[0].display)
+                    result[uuid] = np.append(result[uuid], ob.components[0].display)
         return result
 
-    def get_component_quantity(self):
+    def get_component_quantity(self) -> dict:
         result = {}
         for uuid in self.patients_uuid_list:
             observations = self.get_patient_observations_by_uuid(uuid)
             for ob in observations:
                 if uuid not in result:
-                    result[uuid] = [ob.components[0].quantity()]
+                    result[uuid] = np.array(ob.components[0].quantity())
                 else:
-                    result[uuid].append(ob.components[0].quantity())
+                    result[uuid] = np.append(result[uuid], ob.components[0].quantity())
         return result
 
 
