@@ -1,7 +1,7 @@
 # FHIR-Hackathon
 
 ## Chosen Task
-1. Graphing data from FHIR records and preparing data for transfer to XML and CSV.
+1. Preparing data for transfer to XML and CSV.
 2. Then create a dashboard that presents a human-readable representation of the data of a FHIR server.
 
 ## Stacks / Skills
@@ -10,6 +10,13 @@ Special thanks to [greenfrogs](https://github.com/greenfrogs/).
 2. Model-View-Controller (MVC)  
 3. Front-end (HTML, CSS, Python3)
 4. Back-end and DB (Flask, SQLAlchemy)  
+
+## Extensibility
+1. After exporting a CSV file, load it onto [SandDance](https://github.com/microsoft/SandDance) and appreciate its wonderful visualisation.  
+You can use [online SandDance](https://sanddance.azurewebsites.net/BeachPartyApp/BeachPartyApp.html) by loading your local dataset.  
+Or, install [SandDance for VSCode](https://marketplace.visualstudio.com/items?itemName=msrvida.vscode-sanddance).
+2. Allow users to choose fields of CSV or XML by UI button.
+3. Display CSV or XML onto a web page.
 
 ## Background
 Great Ormond Street Hospital, a specialist children’s centre, has established a digital research unit,
