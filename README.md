@@ -18,6 +18,13 @@ Or, install [SandDance for VSCode](https://marketplace.visualstudio.com/items?it
 2. Allow users to choose fields of CSV or XML by UI button.
 3. Display CSV or XML onto a web page.
 
+## Deployment options
+1. [Deploying Flask on Heroku](https://devcenter.heroku.com/articles/getting-started-with-python)
+2. [Deploying Flask on Google App Engine](https://cloud.google.com/appengine/docs/standard/python3/runtime)
+3. [Deploying Flask on AWS Elastic Beanstalk](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create-deploy-python-flask.html)
+4. [Deploying Flask on Azure](https://docs.microsoft.com/en-us/azure/app-service/containers/how-to-configure-python)
+5. [Deploying Flask on PythonAnywhere](https://help.pythonanywhere.com/pages/Flask/)
+
 ## Background
 Great Ormond Street Hospital, a specialist children’s centre, has established a digital research unit,
 including NHS clinicians, UCL academics and industry partners. The aim is to improve child health
