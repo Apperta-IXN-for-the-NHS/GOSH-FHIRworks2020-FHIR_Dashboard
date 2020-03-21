@@ -1,4 +1,61 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h1>About</h1>
+    <h1 xmlns="http://www.w3.org/1999/html">About</h1>
+
+    <h2>Background</h2>
+    <p>
+    Great Ormond Street Hospital, a specialist children’s centre, has established a digital research unit,
+    including NHS clinicians, UCL academics and industry partners. The aim is to improve child health
+    by optimising the use of clinical data for research.
+    This task, incorporating the two-day FHIRworks Hackathon, will create a library of example
+    developer packages that use the FHIR (Fast Healthcare Interoperability Resources) standard.
+    Students will use synthetically generated data retrieved over FHIR from a GOSH gateway to
+    demonstrate capabilities and advantages of the FHIR standard for the collection and safe handling
+    of healthcare data. This approach will support the development of various healthcare apps, for
+    patients, families and healthcare professionals, like existing phone apps used regularly by
+    millions. There is already a collection of synthetic records on GOSH DRIVE’s FHIR server.
+    HL7 FHIR is a next generation standards JSON based framework that leverages the latest web
+    standards and includes a RESTful API. FHIR interoperability ensures data is collected, accessed,
+    and used in a safe and secure manner.
+    </p>
+
+    <h2>What this package does</h2>
+    <p>
+        <ol>1. Graphing data from FHIR records and preparing data for transfer to XML and CSV.</ol>
+        <ol>2. Then create a dashboard that presents a human-readable representation of the data of a FHIR server.</ol>
+    </p>
+
+    <h2>Extensibility</h2>
+    <p>
+        <li>
+            After exporting a CSV file, load it onto <a href="https://github.com/microsoft/SandDance">SandDance</a> and appreciate its wonderful visualisation.</br>
+            You can use <a href="https://sanddance.azurewebsites.net/BeachPartyApp/BeachPartyApp.html">Online SandDance</a> by loading your local dataset.</br>
+            Or, install <a href="https://marketplace.visualstudio.com/items?itemName=msrvida.vscode-sanddance">SandDance for VSCode</a>.</br>
+        </li>
+        <li>Allow users to choose fields of CSV or XML by UI button.</li>
+        <li>Display CSV or XML onto a web page.</li>
+    </p>
+
+
+    <h2>Author</h2>
+    <p>
+        <a href="https://github.com/kimdanny">Danny To Eun Kim</a>
+    </p>
+
+    <h2>License</h2>
+    <p>
+        This project is licensed under the MIT License</br>
+        Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+        documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+        the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+        and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+        The above copyright notice and this permission notice shall be included in all copies or substantial portions
+        of the Software. </br>
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+        TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+        THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+        CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+        DEALINGS IN THE SOFTWARE.
+    </p>
+
 {% endblock content %}
