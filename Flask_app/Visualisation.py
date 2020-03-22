@@ -47,10 +47,27 @@ def getOldestAge():
     return oldest
 
 def graphLanguage():
-    pass
+    languages = getLanguage()
+    title = "Language Distribution"
+    # plt.title(title)
+    plt.bar(range(len(languages)), list(languages.values()), align='center')
+    plt.xticks(range(len(languages)), list(languages.keys()), rotation='vertical')
+    plt.savefig(f"./static/graphs_output/{title}.png")
+
 
 def graphMarital():
-    pass
+    marital_status = getMarital()
+    title = "Marital Status Distribution"
+    # plt.title(title)
+    plt.bar(range(len(marital_status)), list(marital_status.values()), align='center')
+    plt.xticks(range(len(marital_status)), list(marital_status.keys()))
+    plt.savefig(f"./static/graphs_output/{title}.png")
 
 def graphAge():
     pass
+
+# Debugging purpose
+if __name__ == '__main__':
+    graphLanguage()
+    graphMarital()
+    graphAge()

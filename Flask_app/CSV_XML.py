@@ -128,6 +128,7 @@ class Process_CSV_XML:
     def generate_xml(self):
         pass
 
+# Debugging purpose
 if __name__ == "__main__":
     init_patient_uuid = 'b905139e-1601-403c-9d85-f8e3997cdd19'
     csvxml = Process_CSV_XML(init_patients_page=1, patient_uuid=True, name=True, address=True, marital=True, obs_uuid=True, obs_type=False)

@@ -3,7 +3,8 @@ from flask import Flask, render_template, url_for, flash, redirect
 from flask_sqlalchemy import SQLAlchemy
 from forms import RegistrationForm, LoginForm
 from CSV_XML import Process_CSV_XML
-from Visualisation import graphLanguage
+from Visualisation import graphLanguage, graphMarital
+import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
@@ -35,8 +36,21 @@ class Post(db.Model):
     def __repr__(self):
         return f"Post('{self.title}', '{self.date_posted}')"
 
+def generate_visuals_dict():
+    visuals = []
+    graphLanguage()
+    graphMarital()
+    directory = r'./static/graphs_output'
+    for filename in os.listdir(directory):
+        title = filename[: filename.index(".")]
+        visuals.append({"title": title,
+                        "content": f"../static/graphs_output/{filename}"
+                        })
 
-posts = [
+    return visuals
+
+# TODO: should be generated automatically by function
+patients = [
     {
         'author': 'patient full name',
         'title': 'info',
@@ -51,16 +65,25 @@ posts = [
     }
 ]
 
+visuals = generate_visuals_dict()
+
 
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template('home.html', posts=posts)
+    # TODO: Extend
+    # posts = Post.query.all()
+    return render_template('home.html', patients=patients)
 
 
 @app.route("/about")
 def about():
     return render_template('about.html', title='About')
+
+
+@app.route("/graphs")
+def graphs():
+    return render_template('graphs.html', visuals=visuals, title='Graphs')
 
 
 @app.route("/register", methods=['GET', 'POST'])

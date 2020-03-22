@@ -218,7 +218,7 @@ class Observations:
         return result
 
 
-# Debugging purpose main
+# Debugging purpose
 if __name__ == "__main__":
     patient_uuid = 'b905139e-1601-403c-9d85-f8e3997cdd19'
     patient = Patients(patient_uuid=patient_uuid)
