@@ -1,8 +1,9 @@
 # FHIR-Hackathon
 
 ## Chosen Task
-1. Preparing data for transfer to XML and CSV.
-2. Then create a dashboard that presents a human-readable representation of the data of a FHIR server.
+1. Graphing data from FHIR records.
+2. Preparing data for transfer to XML and CSV, and allow users to downloads them.
+3. Then create a dashboard that presents a human-readable representation of the data of a FHIR server.
 
 ## Stacks / Skills
 1. `pip install FHIR-Parser`. Review [FHIR-Parser Docs](https://fhir-parser.readthedocs.io/en/latest/index.html#).  
@@ -16,7 +17,7 @@ Special thanks to [greenfrogs](https://github.com/greenfrogs/).
 You can use [online SandDance](https://sanddance.azurewebsites.net/BeachPartyApp/BeachPartyApp.html) by loading your local dataset.  
 Or, install [SandDance for VSCode](https://marketplace.visualstudio.com/items?itemName=msrvida.vscode-sanddance).
 2. Allow users to choose fields of CSV or XML by UI button.
-3. Display CSV or XML onto a web page.
+3. Link Observation data when user clicks patient's name.
 
 ## Deployment options
 1. [Deploying Flask on Heroku](https://devcenter.heroku.com/articles/getting-started-with-python)
