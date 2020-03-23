@@ -2,7 +2,7 @@
 
 ## Chosen Task
 1. Graphing data from FHIR records.
-2. Preparing data for transfer to XML and CSV, and allow users to downloads them.
+2. Preparing data for transfer to XML and CSV, and allow users to download them.
 3. Then create a dashboard that presents a human-readable representation of the data.
 
 ## Stacks / Skills
