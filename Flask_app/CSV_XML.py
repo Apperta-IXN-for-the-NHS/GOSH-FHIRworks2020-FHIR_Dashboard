@@ -19,6 +19,7 @@ class Process_CSV_XML:
                                         patient_uuid=kwargs["init_patient_uuid"] if "init_patient_uuid" in kwargs else None)
         self.observations_object = Observations(self.patients_object)
         self.fields = kwargs
+        self.df = self.create_dataframe()
 
     def create_dataframe(self) -> pd.DataFrame:
         selected_patient_info = {}
@@ -47,7 +48,7 @@ class Process_CSV_XML:
             del gender
 
         if "birthdate" in self.fields and self.fields["birthdate"]:
-            birthdate = np.array(self.patients_object.get_birthdate())
+            birthdate = np.array(self.patients_object.get_birthDate())
             selected_patient_info.update({"birthdate": birthdate})
             del birthdate
 
@@ -110,26 +111,44 @@ class Process_CSV_XML:
             del obs_component_quantity
 
         columns = [*selected_patient_info]
-        columns.extend([*selected_obs_info])
+        # columns.extend([*selected_obs_info])
 
-        # df = pd.DataFrame(selected_obs_info)
+        df = pd.DataFrame(selected_patient_info)
 
-        # return selected_obs_info
-        # TODO: How are you going to deal with foreign keys and different length? how are you going to loop
-        for uuid in selected_obs_info.keys():
-            print(len(selected_obs_info[uuid]))
+        # # TODO: How are you going to deal with foreign keys and different length? how are you going to loop
+        # for uuid in selected_obs_info.keys():
+        #     print(len(selected_obs_info[uuid]))
 
-    def generate_csv(self):
-        pass
+        return df
 
-    def df_to_xml(self, filepath):
-        pass
+    def generate_csv(self, filename):
+        self.df.to_csv("./static/CSV_output/"+filename)
 
-    def generate_xml(self):
-        pass
+    @staticmethod
+    def df_to_xml(row):
+        xml = ['<item>']
+        for field in row.index:
+            xml.append('  <field name="{0}">{1}</field>'.format(field, row[field]))
+        xml.append('</item>')
+        return '\n'.join(xml)
+
+    def generate_xml(self, filename):
+        xml = '\n'.join(self.df.apply(self.df_to_xml, axis=1))
+
+        with open("./static/XML_output/"+filename, mode='w') as fp:
+            fp.write('<?xml version="1.0" encoding="ISO-8859-1"?>\n')
+            fp.write('<items>\n')
+            fp.write(xml)
+            fp.write('\n</items>')
+
+    def generate_dictionary(self):
+        return self.df.T.to_dict().values()
 
 # Debugging purpose
 if __name__ == "__main__":
     init_patient_uuid = 'b905139e-1601-403c-9d85-f8e3997cdd19'
-    csvxml = Process_CSV_XML(init_patients_page=1, patient_uuid=True, name=True, address=True, marital=True, obs_uuid=True, obs_type=False)
-    print(csvxml.create_dataframe())
+    csvxml = Process_CSV_XML(init_patients_page=3, patient_uuid=True, name=True, telecom=True, gender=True,
+                                birthdate=True, address=True, marital=True, language=True)
+    # csvxml.generate_csv("patient.csv")
+    # csvxml.generate_xml("patient.xml")
+    # print(csvxml.generate_dictionary())

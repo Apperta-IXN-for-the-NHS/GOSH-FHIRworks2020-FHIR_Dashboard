@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import Flask, render_template, url_for, flash, redirect
+from flask import Flask, render_template, url_for, flash, redirect, send_file
 from flask_sqlalchemy import SQLAlchemy
 from forms import RegistrationForm, LoginForm
 from CSV_XML import Process_CSV_XML
@@ -36,6 +36,7 @@ class Post(db.Model):
     def __repr__(self):
         return f"Post('{self.title}', '{self.date_posted}')"
 
+
 def generate_visuals_dict():
     visuals = []
     graphLanguage()
@@ -49,21 +50,13 @@ def generate_visuals_dict():
 
     return visuals
 
-# TODO: should be generated automatically by function
-patients = [
-    {
-        'author': 'patient full name',
-        'title': 'info',
-        'content': 'info',
-        'date_posted': 'info'
-    },
-    {
-        'author': 'patient full name',
-        'title': 'info',
-        'content': 'info',
-        'date_posted': 'info'
-    }
-]
+
+# TODO: allow users to choose fields by UI
+choose_fields = Process_CSV_XML(init_patients_page=3, patient_uuid=True, name=True, telecom=True, gender=True,
+                                birthdate=True, address=True, marital=True, language=True)
+
+# dictionary format that goes into home.html
+patients = choose_fields.generate_dictionary()
 
 visuals = generate_visuals_dict()
 
@@ -74,6 +67,33 @@ def home():
     # TODO: Extend
     # posts = Post.query.all()
     return render_template('home.html', patients=patients)
+
+
+@app.route('/home')
+def file_downloads():
+    try:
+        return render_template('home.html')
+    except Exception as e:
+        return str(e)
+
+
+@app.route('/return-csv/')
+def return_csv():
+    try:
+        choose_fields.generate_csv("patient.csv")
+        return send_file('static/CSV_output/patient.csv', attachment_filename='patient.csv')
+    except Exception as e:
+        return str(e)
+
+
+@app.route('/return-xml/')
+def return_xml():
+    try:
+        choose_fields.generate_xml("patient.xml")
+        return send_file('static/XML_output/patient.xml', attachment_filename='patient.xml')
+    except Exception as e:
+        return str(e)
+
 
 
 @app.route("/about")

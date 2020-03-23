@@ -1,14 +1,25 @@
 {% extends "layout.html" %}
 {% block content %}
+
+{#    download full CSV button    download full XML button#}
+    <a href="/return-csv/" target="blank"><button class='btn btn-default' style="background-color: silver">Download full CSV</button></a>
+    <a href="/return-xml/" target="blank"><button class='btn btn-default' style="background-color: silver">Download full XML</button></a>
+    </br>
+
     {% for patient in patients %}
         <article class="media content-section">
           <div class="media-body">
             <div class="article-metadata">
-              <a class="mr-2" href="#">{{ patient.author }}</a>
-              <small class="text-muted">{{ patient.date_posted }}</small>
+              <a class="mr-2" href="#">{{ patient.name }}</a>
+              <small class="text-muted">{{ patient.uuid }}</small>
             </div>
-            <h2><a class="article-title" href="#">{{ patient.title }}</a></h2>
-            <p class="article-content">{{ patient.content }}</p>
+            <h3><a class="article-title" href="#">{{ patient.name }}</a></h3>
+              <p class="article-content">Gender: {{ patient.gender }}</p>
+              <p class="article-content">BirthDate: {{ patient.birthdate }}</p>
+              <p class="article-content">Marital Status: {{ patient.marital }}</p>
+              <p class="article-content">Telecom: {{ patient.telecom }}</p>
+              <p class="article-content">Address: {{ patient.address }}</p>
+              <p class="article-content">Language: {{ patient.language }}</p>
           </div>
         </article>
     {% endfor %}
