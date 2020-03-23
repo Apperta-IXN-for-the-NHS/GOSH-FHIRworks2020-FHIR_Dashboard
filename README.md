@@ -3,7 +3,7 @@
 ## Chosen Task
 1. Graphing data from FHIR records.
 2. Preparing data for transfer to XML and CSV, and allow users to downloads them.
-3. Then create a dashboard that presents a human-readable representation of the data of a FHIR server.
+3. Then create a dashboard that presents a human-readable representation of the data.
 
 ## Stacks / Skills
 1. `pip install FHIR-Parser`. Review [FHIR-Parser Docs](https://fhir-parser.readthedocs.io/en/latest/index.html#).  
